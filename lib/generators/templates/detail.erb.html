@@ -1,0 +1,12 @@
+<div id="<%= api.parameterize %>" class='detail'>
+	<h3><%= api %></h3>
+	<p><%= description %></p>
+	<h3>Params</h3>
+	<% params.each do |param| %>
+	<li><span class='param_name'><%= param[:name] %></span> <span class='param_desc'><%= param[:description] %></span></li>
+	<% end %>
+	<h4>Example Request</h4>
+	<span><%= example_request %></span>
+	<h4>Example Response</h4>
+	<pre><code><%= example_response %></code></pre>
+</div>

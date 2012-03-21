@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= Rails.application.class.parent_name %>::Api Doc</title>
+    <style type="text/css" media="screen">
+      body {
+        font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana";
+      }
+	div, pre{
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-o-border-radius: 3px;
+		border-radius: 3px;
+	}
+	#page{
+		width: 960px;
+        margin: 0 auto;
+	}
+	#index{
+		background: #9ad4e6;
+		margin-bottom: 30px;
+		padding: 10px;
+	}
+	#details div{
+		padding: 10px;
+		border-bottom: dashed 1px #ccc;
+	}
+	pre{
+		background: #ddd;
+		padding: 10px;
+	}
+	h2{
+		color: #009fd0;
+	}
+	h3,h4{
+		color: #4cb5d6;
+	}
+	.index_item{
+		padding: 5px;
+	}
+	.index_item .description{
+		margin-left:20px;
+	}
+	.detail li .param_name{
+		font-size: 13px;
+		font-weight: bold;
+	}
+	.detail li .param_desc{
+		font-size: 13px;
+		color: #333;
+	}
+	</style>
+  </head>
+  <body>
+    <div id="page">
+	<div id="index"><%= index_content %></div>
+	<div id="details"><%= detail_content %></div>	
+    </div>
+  </body>
+</html>

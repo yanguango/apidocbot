@@ -1,0 +1,10 @@
+'GET /users':
+  description: 'get users'
+  params:
+    page: 1
+  example_request: 'http://example.com/api/users.json'
+  example_response: |
+    this id for your response json
+    you can put multiple lines here
+    
+
