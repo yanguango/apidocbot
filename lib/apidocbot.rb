@@ -27,7 +27,8 @@ module Apidocbot
         puts "==========loading #{File.basename(yaml)}=========="
         docs = YAML::load(file)
         #userd in section template
-        section_name = File.basename(yaml, '.yml').capitalize
+        section_name = File.basename(yaml, '.yml').humanize
+        section_name = section_name.split(" ").each{ |word| word.capitalize! }.join(" ")
         section_content = ""
         #########################
         docs.keys.each do |key|
@@ -36,10 +37,23 @@ module Apidocbot
           #used in item template
           api = key
           description = docs[key]['description']
-          params = []
-          docs[key]['params'].each do |key, value|
-            params << {:name => key, :description => value}
+          params = {}
+          # if docs[key]['params']
+          #   docs[key]['params']['required'].each do |param_name, param_desc|
+          #     params[:required] << {:name => param_name, :description => param_desc}
+          #   end if docs[key]['params']['required']
+          #   docs[key]['params'].each do |param_name, param_desc|
+          #     params[:optional] << {:name => param_name, :description => param_desc}
+          #   end if docs[key]['params']['optional']
+          # end
+          
+          docs[key]['params'].each do |p_type, p_content|
+            params[p_type.to_sym] = []
+            p_content.each do |p_name, p_desc|
+              params[p_type.to_sym] << {:name => p_name, :description => p_desc}
+            end
           end if docs[key]['params']
+          
           example_request = docs[key]['example_request']
           example_response = docs[key]['example_response']
           #####################
