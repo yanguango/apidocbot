@@ -6,7 +6,7 @@ A simple bot to generate api docs
 
 Add this line to your application's Gemfile:
 
-    gem 'apidocbot'
+    gem 'apidocbot', :git => 'git@github.com:bl0ckme/apidocbot.git'
 
 And then execute:
 
@@ -17,10 +17,28 @@ Or install it yourself as:
     $ gem install apidocbot
 
 ## Usage
-
+###1. generate apidocbot templates
 	rails generate apidocbot
-	write your api doc yaml files
+	
+###2. write your api doc yaml files
+Example:
+
+		'GET /users/:id':
+		  description: 'Get specified users'
+		  params:
+		  example_request: 'http://example.com/api/users/1'
+		  example_response: |
+		    {
+		      "id":1,
+		      "name":"samyang",
+		      "birthday":"1986-09-22",
+		      "gender":"male",
+		      "created_at":"2012-03-23 14:06:25"
+		    }
+
+###3. run rake task to generate your api doc		
 	rake apidocbot
+the result api doc will be in the output.html
 
 ## Contributing
 

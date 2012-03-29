@@ -4,24 +4,23 @@ require "erb"
 
 module Apidocbot
   require 'apidocbot/railtie' if defined?(Rails)
-  
+
   def self.generate_docs
     bot_path = File.join(Rails.root, 'apidocbot')
     doc_path = File.join(bot_path, 'docs')
     output_path = File.join(bot_path, 'output.html')
     template_path = File.join(bot_path, 'templates')
-    
+
     index_template = File.open(File.join(template_path, 'index.erb.html')).read
     section_template = File.open(File.join(template_path, 'section.erb.html')).read
     item_template = File.open(File.join(template_path, 'item.erb.html')).read
     detail_template = File.open(File.join(template_path, 'detail.erb.html')).read
-    
-    
+
+
     yaml_files = Dir.glob("#{doc_path}/*.yml")
     #used in index template
     index_content = ""
     detail_content = ""
-    ######################
     yaml_files.each do |yaml|
       File.open(yaml) do |file|
         puts "==========loading #{File.basename(yaml)}=========="
@@ -30,33 +29,21 @@ module Apidocbot
         section_name = File.basename(yaml, '.yml').humanize
         section_name = section_name.split(" ").each{ |word| word.capitalize! }.join(" ")
         section_content = ""
-        #########################
         docs.keys.each do |key|
           item_erb = ERB.new(item_template)
-          
           #used in item template
           api = key
           description = docs[key]['description']
           params = {}
-          # if docs[key]['params']
-          #   docs[key]['params']['required'].each do |param_name, param_desc|
-          #     params[:required] << {:name => param_name, :description => param_desc}
-          #   end if docs[key]['params']['required']
-          #   docs[key]['params'].each do |param_name, param_desc|
-          #     params[:optional] << {:name => param_name, :description => param_desc}
-          #   end if docs[key]['params']['optional']
-          # end
-          
           docs[key]['params'].each do |p_type, p_content|
             params[p_type.to_sym] = []
             p_content.each do |p_name, p_desc|
               params[p_type.to_sym] << {:name => p_name, :description => p_desc}
-            end
+            end if p_content
           end if docs[key]['params']
-          
           example_request = docs[key]['example_request']
           example_response = docs[key]['example_response']
-          #####################
+          
           section_content << item_erb.result(binding)
           detail_erb = ERB.new(detail_template)
           detail_content << detail_erb.result(binding)
@@ -65,7 +52,7 @@ module Apidocbot
         index_content << section_erb.result(binding)
       end
     end
-    
+
     index_erb = ERB.new(index_template)
     File.open(output_path, 'w') {|output| output.write(index_erb.result(binding))}
   end
