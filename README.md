@@ -6,7 +6,7 @@ A simple bot to generate api docs
 
 Add this line to your application's Gemfile:
 
-    gem 'apidocbot', :git => 'git@github.com:bl0ckme/apidocbot.git'
+    gem 'apidocbot', :git => 'git@github.com:yanguango/apidocbot.git'
 
 And then execute:
 
